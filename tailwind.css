@@ -1,1 +1,78 @@
+/*noinspection CssUnknownTarget*/
 @import "tailwindcss";
+
+@source "./src/**/*.{rs,html,css}";
+
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/assets/fonts/Inter-Variable.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: Inter;
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/assets/fonts/Inter-Variable-Italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: IntelOneMono;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/assets/fonts/IntelOneMono-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: IntelOneMono;
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/assets/fonts/IntelOneMono-Bold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: Pretendard;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    unicode-range: U+AC00-D7AF, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF;
+    src: url("/assets/fonts/Pretendard-Regular.subset.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: Pretendard;
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    unicode-range: U+AC00-D7AF, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF;
+    src: url("/assets/fonts/Pretendard-Bold.subset.woff2") format("woff2");
+}
+
+@theme {
+    --font-sans: Inter, Pretendard, ui-sans-serif, system-ui, sans-serif;
+    --font-mono: IntelOneMono, ui-monospace, monospace;
+
+    --color-primary: #fd4f00;
+    --color-primary-deep: #c23b00;
+
+    --color-secondary: #38bdf8;
+    --color-secondary-deep: #0369a1;
+
+    --color-dark: #242425;
+    --color-light: #fafafe;
+}
+
+@layer base {
+    html, body {
+        @apply font-sans text-black bg-white dark:bg-black dark:text-white;
+    }
+
+    code, pre {
+        @apply font-mono;
+    }
+}
