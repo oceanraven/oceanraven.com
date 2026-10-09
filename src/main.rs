@@ -1,10 +1,12 @@
 mod components;
 mod pages;
+mod posts;
 
 use dioxus::prelude::*;
 
 use components::*;
 use pages::*;
+use posts::*;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
