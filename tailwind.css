@@ -1,5 +1,6 @@
 /*noinspection CssUnknownTarget*/
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @source "./src/**/*.{rs,html,css}";
 
@@ -74,5 +75,9 @@
 
     code, pre {
         @apply font-mono;
+    }
+
+    .prose code:not(pre code) {
+        @apply bg-neutral-100 dark:bg-neutral-800;
     }
 }

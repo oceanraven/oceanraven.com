@@ -1,8 +1,8 @@
 use pulldown_cmark::{Options, Parser};
 
 const POSTS: &[(&str, &str)] = &[
-    ("test1", include_str!("../posts/test1.md")),
-    ("test2", include_str!("../posts/test2.md")),
+    ("first-blog", include_str!("../posts/first-blog.md")),
+    ("second-blog", include_str!("../posts/second-blog.md")),
 ];
 
 #[derive(serde::Deserialize, Debug)]

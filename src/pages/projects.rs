@@ -1,10 +1,11 @@
 use dioxus::prelude::*;
+use crate::components::PageTitle;
 
 #[component]
 pub fn Projects() -> Element {
     rsx! {
         div {
-            h1 { "Projects" }
+            PageTitle { title: "Projects" }
             p { "This is the projects page." }
         }
     }
