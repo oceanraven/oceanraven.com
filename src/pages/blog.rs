@@ -1,6 +1,6 @@
 use crate::components::{PageTitle, TagList};
 use crate::pages::NotFound;
-use crate::posts::{all_posts, find_post, render_markdown};
+use crate::posts::{all_posts, find_post};
 use crate::Route;
 use dioxus::prelude::*;
 
@@ -15,17 +15,19 @@ pub fn BlogIndex() -> Element {
                         key: "{post.slug}",
                         class: "flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-6",
                         time {
-                            datetime: "{post.frontmatter.date}",
+                            datetime: "{post.date}",
                             class: "shrink-0 font-mono text-sm text-neutral-600 dark:text-neutral-400",
-                            "{post.frontmatter.date}"
+                            "{post.date}"
                         }
                         div { class: "flex flex-col gap-1",
                             Link {
                                 class: "text-lg font-semibold transition-colors hover:text-primary-deep dark:hover:text-primary",
-                                to: Route::BlogPost { slug: post.slug.clone() },
-                                "{post.frontmatter.title}"
+                                to: Route::BlogPost {
+                                    slug: post.slug.to_string(),
+                                },
+                                "{post.title}"
                             }
-                            TagList { tags: post.frontmatter.tags.clone() }
+                            TagList { tags: post.tags }
                         }
                     }
                 }
@@ -40,14 +42,12 @@ pub fn BlogPost(slug: String) -> Element {
 
     match post {
         Some(post) => {
-            let html_output = render_markdown(&post.body);
-
             rsx! {
                 div {
-                    PageTitle { title: &post.frontmatter.title }
+                    PageTitle { title: &post.title }
                     div { class: "flex font-mono gap-2 my-4",
-                        time { class: "text-neutral-600 dark:text-neutral-400", "{post.frontmatter.date}" }
-                        TagList { tags: post.frontmatter.tags.clone() }
+                        time { class: "text-neutral-600 dark:text-neutral-400", "{post.date}" }
+                        TagList { tags: post.tags }
                     }
                     hr { class: "my-8 border-neutral-200 dark:border-neutral-800" }
                     div {
@@ -58,7 +58,7 @@ pub fn BlogPost(slug: String) -> Element {
                         prose-h2:mt-12 prose-h2:mb-4 prose-h2:text-2xl prose-h2:font-semibold prose-h2:tracking-tight \
                         prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-xl prose-h3:font-semibold \
                         prose-h4:mt-6 prose-h4:mb-2 prose-h4:text-lg prose-h4:font-semibold",
-                        dangerous_inner_html: html_output,
+                        dangerous_inner_html: post.html,
                     }
                 }
             }

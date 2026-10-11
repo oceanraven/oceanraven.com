@@ -2,6 +2,7 @@ mod components;
 mod pages;
 mod posts;
 
+use dioxus::html::a::href;
 use dioxus::prelude::*;
 
 use components::*;
@@ -34,6 +35,10 @@ const FONTS: Asset = asset!(
     "/assets/fonts",
     AssetOptions::folder().with_hash_suffix(false)
 );
+const KATEX: Asset = asset!(
+    "/assets/katex",
+    AssetOptions::folder().with_hash_suffix(false)
+);
 
 fn main() {
     launch(App);
@@ -50,7 +55,8 @@ fn App() -> Element {
             r#as: "font",
             r#type: "font/woff2",
             crossorigin: "anonymous",
-        }
+        },
+        document::Link {rel:"stylesheet", href: format!("{KATEX}/katex.min.css")}
         Router::<Route> {}
     }
 }

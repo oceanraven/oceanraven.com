@@ -8,12 +8,15 @@ edition = "2021"
 
 [dependencies]
 dioxus = { version = "0.7.1", features = ["router"] }
-pulldown-cmark = "0.13.4"
-serde = { version = "1.0.229", features = ["derive"] }
-toml = "1.1.6"
 
 [features]
 default = ["web"]
 web = ["dioxus/web"]
 desktop = ["dioxus/desktop"]
 mobile = ["dioxus/mobile"]
+
+[build-dependencies]
+katex = "0.4.6"
+pulldown-cmark = "0.13.4"
+serde = { version = "1.0.229", features = ["derive"] }
+toml = "1.1.6"

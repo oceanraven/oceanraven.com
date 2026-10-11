@@ -1,72 +1,17 @@
-use pulldown_cmark::{Options, Parser};
-
-const POSTS: &[(&str, &str)] = &[
-    ("first-blog", include_str!("../posts/first-blog.md")),
-    ("second-blog", include_str!("../posts/second-blog.md")),
-];
-
-#[derive(serde::Deserialize, Debug)]
-pub struct Frontmatter {
-    pub title: String,
-    pub date: String,
-    #[serde(default)]
-    pub tags: Vec<String>,
-}
-
 pub struct Post {
-    pub slug: String,
-    pub frontmatter: Frontmatter,
-    pub body: String,
+    pub slug: &'static str,
+    pub title: &'static str,
+    pub date: &'static str,
+    pub tags: &'static [&'static str],
+    pub html: &'static str,
 }
 
-fn parse_post(slug: &str, post: &str) -> Post {
-    let (frontmatter, body) = parse_frontmatter(post);
-    Post {
-        slug: slug.to_string(),
-        frontmatter,
-        body: body.to_string(),
-    }
+include!(concat!(env!("OUT_DIR"), "/posts_generated.rs"));
+
+pub fn all_posts() -> &'static [Post] {
+    POSTS
 }
 
-pub fn all_posts() -> Vec<Post> {
-    let mut all_posts = POSTS
-        .iter()
-        .map(|(slug, post)| parse_post(slug, post))
-        .collect::<Vec<Post>>();
-    all_posts.sort_by(|a, b| b.frontmatter.date.cmp(&a.frontmatter.date));
-    all_posts
-}
-
-pub fn find_post(slug: &str) -> Option<Post> {
-    all_posts()
-        .into_iter()
-        .find(|post| post.slug == slug)
-}
-
-fn split_frontmatter(post: &str) -> Option<(&str, &str)> {
-    let rest = post.trim_start().strip_prefix("+++")?;
-    let (raw, body) = rest.split_once("\n+++")?;
-    Some((raw, body.trim_start()))
-}
-
-fn parse_frontmatter(post: &str) -> (Frontmatter, &str) {
-    let (raw, body) =
-        split_frontmatter(post).expect("post must start with a +++ frontmatter block");
-    let frontmatter = toml::from_str(raw).expect("invalid frontmatter");
-    (frontmatter, body)
-}
-
-pub fn render_markdown(markdown: &str) -> String {
-    let mut options = Options::empty();
-    options.insert(Options::ENABLE_STRIKETHROUGH);
-    options.insert(Options::ENABLE_TABLES);
-    options.insert(Options::ENABLE_FOOTNOTES);
-    options.insert(Options::ENABLE_TASKLISTS);
-    options.insert(Options::ENABLE_SMART_PUNCTUATION);
-
-    let parser = Parser::new_ext(markdown, options);
-
-    let mut html_output = String::new();
-    pulldown_cmark::html::push_html(&mut html_output, parser);
-    html_output
+pub fn find_post(slug: &str) -> Option<&'static Post> {
+    POSTS.iter().find(|post| post.slug == slug)
 }
