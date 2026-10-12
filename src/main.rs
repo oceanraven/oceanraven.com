@@ -2,12 +2,11 @@ mod components;
 mod pages;
 mod posts;
 
-use dioxus::html::a::href;
 use dioxus::prelude::*;
 
 use components::*;
 use pages::*;
-use posts::*;
+use posts::SYNTAX_CSS;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -55,8 +54,9 @@ fn App() -> Element {
             r#as: "font",
             r#type: "font/woff2",
             crossorigin: "anonymous",
-        },
-        document::Link {rel:"stylesheet", href: format!("{KATEX}/katex.min.css")}
+        }
+        document::Link { rel: "stylesheet", href: format!("{KATEX}/katex.min.css") }
+        document::Style { {SYNTAX_CSS} }
         Router::<Route> {}
     }
 }

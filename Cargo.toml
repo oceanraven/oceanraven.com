@@ -19,4 +19,6 @@ mobile = ["dioxus/mobile"]
 katex = "0.4.6"
 pulldown-cmark = "0.13.4"
 serde = { version = "1.0.229", features = ["derive"] }
+syntect = "5.3.0"
 toml = "1.1.6"
+two-face = "0.5.2"
