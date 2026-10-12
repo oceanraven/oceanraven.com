@@ -844,11 +844,17 @@
   .block {
     display: block;
   }
+  .contents {
+    display: contents;
+  }
   .flex {
     display: flex;
   }
   .inline {
     display: inline;
+  }
+  .table {
+    display: table;
   }
   .min-h-screen {
     min-height: 100vh;
@@ -865,8 +871,17 @@
   .flex-1 {
     flex: 1;
   }
+  .flex-shrink {
+    flex-shrink: 1;
+  }
   .shrink-0 {
     flex-shrink: 0;
+  }
+  .border-collapse {
+    border-collapse: collapse;
+  }
+  .resize {
+    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -905,6 +920,10 @@
     :where(& > :not(:last-child)) {
       border-color: var(--color-neutral-200);
     }
+  }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
   }
   .border-neutral-200 {
     border-color: var(--color-neutral-200);
@@ -956,6 +975,13 @@
   }
   .text-secondary-deep {
     color: var(--color-secondary-deep);
+  }
+  .underline {
+    text-decoration-line: underline;
+  }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
   }
   .transition-colors {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
@@ -1339,6 +1365,11 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
 @property --tw-content {
   syntax: "*";
   initial-value: "";
@@ -1351,6 +1382,7 @@
       --tw-border-style: solid;
       --tw-font-weight: initial;
       --tw-tracking: initial;
+      --tw-outline-style: solid;
       --tw-content: "";
     }
   }

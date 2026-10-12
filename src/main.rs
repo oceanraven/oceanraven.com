@@ -42,6 +42,13 @@ async fn static_routes() -> Result<Vec<String>, ServerFnError> {
         .to_string()
     }));
 
+    routes.push(
+        Route::NotFound {
+            route: vec!["404".to_string()],
+        }
+        .to_string(),
+    );
+
     Ok(routes)
 }
 
