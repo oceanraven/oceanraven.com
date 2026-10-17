@@ -86,7 +86,7 @@ fn main() {
 #[component]
 fn App() -> Element {
     rsx! {
-        document::Meta {charset: "utf-8"}
+        document::Meta { charset: "utf-8" }
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link {
