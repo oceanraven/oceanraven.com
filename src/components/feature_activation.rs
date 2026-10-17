@@ -1,7 +1,5 @@
 use dioxus::prelude::*;
 
-const MAX_HIGHLIGHT: f32 = 55.0;
-
 #[derive(PartialEq)]
 pub struct Feature {
     pub id: u32,
@@ -19,33 +17,49 @@ impl Feature {
     }
 }
 
-fn acivation_style(activation: f32) -> String {
+fn highlight(activation: f32) -> (&'static str, String) {
     if activation == 0.0 {
-        return String::new();
+        return ("", String::new());
     }
-    let color_variable = if activation > 0.0 {
-        "--color-primary"
+    let class = if activation > 0.0 {
+        "highlight-positive"
     } else {
-        "--color-secondary"
+        "highlight-negative"
     };
-    let mix_ratio = activation.abs().min(1.0) * MAX_HIGHLIGHT;
-    format!("background-color: color-mix(in oklab, var({color_variable}) {mix_ratio:.0}%, transparent);")
+    let style = format!("--activation: {:.2}", activation.abs().min(1.0));
+    (class, style)
 }
 
 #[component]
 pub fn FeatureActivation(tokens: &'static [&'static str], features: &'static [Feature]) -> Element {
-    let current_feature = &features[4];
+    let mut index = use_signal(|| 0);
+    let current_feature = &features[index()];
+
+    let highlighted = tokens.iter().enumerate().map(|(i, token)| {
+        let activation = current_feature.activation(i);
+        let (highlight_class, highlight_style) = highlight(activation);
+        (i, *token, highlight_class, highlight_style, format!("{activation:.2}"))
+    });
+
     rsx! {
+        div { class: "mb-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 font-mono text-sm text-neutral-600 dark:text-neutral-400",
+            span { aria_live: "polite", "feature #{current_feature.id} · {current_feature.label}" }
+            button {
+                class: "shrink-0 cursor-pointer transition-colors hover:text-dark dark:hover:text-light",
+                onclick: move |_| index.set((index() + 1) % features.len()),
+                "next feature ({index() + 1}/{features.len()}) →"
+            }
+        }
         p { class: "text-lg leading-relaxed",
-            for (i, token) in tokens.iter().enumerate() {
+            for (i, token, highlight_class, highlight_style, tooltip) in highlighted {
                 span {
                     key: "{i}",
-                    style: acivation_style(current_feature.activation(i)),
-                    title: format!("{:.2}", current_feature.activation(i)),
+                    class: "transition-colors duration-300 {highlight_class}",
+                    style: highlight_style,
+                    title: tooltip,
                     "{token}"
                 }
             }
-
         }
     }
 }

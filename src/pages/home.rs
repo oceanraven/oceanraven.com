@@ -65,7 +65,7 @@ const FEATURES: &[Feature] = &[
 #[component]
 pub fn Home() -> Element {
     rsx! {
-        div {
+        div { class: "space-y-6",
             PageTitle { title: "Seokyoung Yoon" }
             FeatureActivation { tokens: TOKENS, features: FEATURES }
         }

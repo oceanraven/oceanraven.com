@@ -70,7 +70,7 @@
 
 @layer base {
     html, body {
-        @apply font-sans text-black bg-white dark:bg-black dark:text-white;
+        @apply font-sans bg-light dark:bg-dark text-dark dark:text-light;
     }
 
     code, pre {
@@ -83,6 +83,14 @@
 
     .katex-display {
         @apply overflow-x-auto overflow-y-hidden;
+    }
+
+    :root {
+        --highlight-max: 55%;
+
+        @media (prefers-color-scheme: dark) {
+            --highlight-max: 72%;
+        }
     }
 }
 
@@ -121,4 +129,12 @@
     --tw-prose-invert-pre-bg: #282c34;
     --tw-prose-invert-th-borders: var(--color-neutral-600);
     --tw-prose-invert-td-borders: var(--color-neutral-700);
+}
+
+@utility highlight-positive {
+    background-color: color-mix(in oklab, var(--color-primary) calc(var(--activation) * var(--highlight-max)), transparent);
+}
+
+@utility highlight-negative {
+    background-color: color-mix(in oklab, var(--color-secondary) calc(var(--activation) * var(--highlight-max)), transparent);
 }
