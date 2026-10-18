@@ -3,6 +3,7 @@ name = "oceanraven"
 version = "0.1.0"
 authors = ["oceanraven <oceanraven71@gmail.com>"]
 edition = "2021"
+build = "build/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
