@@ -1,6 +1,7 @@
 mod components;
 mod pages;
 mod posts;
+mod content;
 
 use dioxus::prelude::*;
 

@@ -1,0 +1,18 @@
+# kind: "preprint" | "workshop" | "conference" | "journal" | "talk" | "poster"
+
+[[publications]]
+title = "Example Talk: An Introduction to Sparse Autoencoders"
+authors = ["Seokyoung Yoon"]
+venue = "Example Reading Group"
+year = 2026
+kind = "talk"
+slides = "https://example.com/slides.pdf"
+
+[[publications]]
+title = "Example Project Report: Probing Toy Models of Superposition"
+authors = ["Seokyoung Yoon", "Example Coauthor"]
+venue = "Example Course Project"
+year = 2025
+kind = "preprint"
+pdf = "https://example.com/report.pdf"
+code = "https://github.com/oceanraven/example"
