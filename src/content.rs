@@ -1,10 +1,11 @@
+#[derive(PartialEq, Clone)]
 pub struct Publication {
-    title: &'static str,
-    venue: &'static str,
-    kind: &'static str,
-    authors: &'static [&'static str],
-    year: u32,
-    links: &'static [(&'static str, &'static str)],
+    pub title: &'static str,
+    pub venue: &'static str,
+    pub kind: &'static str,
+    pub authors: &'static [&'static str],
+    pub year: u32,
+    pub links: &'static [(&'static str, &'static str)],
 }
 
 include!(concat!(env!("OUT_DIR"), "/content_generated.rs"));

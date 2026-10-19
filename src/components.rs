@@ -4,6 +4,7 @@ mod tag_list;
 mod page_title;
 mod feature_activation;
 mod prose;
+mod publication_item;
 
 pub use nav_link::NavLink;
 pub use layout::Layout;
@@ -12,3 +13,4 @@ pub use page_title::PageTitle;
 pub use feature_activation::FeatureActivation;
 pub use feature_activation::Feature;
 pub use prose::Prose;
+pub use publication_item::PublicationItem;

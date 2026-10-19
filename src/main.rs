@@ -9,6 +9,8 @@ use components::*;
 use pages::*;
 use posts::SYNTAX_CSS;
 
+pub const AUTHOR: &str = "Seokyoung Yoon";
+
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
 enum Route {
@@ -87,7 +89,7 @@ fn main() {
 #[component]
 fn App() -> Element {
     rsx! {
-        document::Meta { charset: "utf-8" }
+        Meta { charset: "utf-8" }
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link {
