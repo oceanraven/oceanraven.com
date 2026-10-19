@@ -1,9 +1,10 @@
+use crate::components::ExternalLinks;
 use crate::content::Publication;
 use crate::AUTHOR;
 use dioxus::prelude::*;
 
 #[component]
-pub fn PublicationItem(publication: Publication) -> Element {
+pub fn PublicationItem(publication: &'static Publication) -> Element {
     rsx! {
         li {
             key: "{publication.year}-{publication.title}",
@@ -40,16 +41,7 @@ pub fn PublicationItem(publication: Publication) -> Element {
 
                 if !publication.links.is_empty() {
                     div { class: "flex gap-3 font-mono text-sm",
-                        for (label, url) in publication.links {
-                            a {
-                                key: "{label}",
-                                href: "{url}",
-                                target: "_blank",
-                                rel: "noopener noreferrer",
-                                class: "text-neutral-600 transition-colors hover:text-primary-deep dark:text-neutral-400 dark:hover:text-primary",
-                                "[{label}]"
-                            }
-                        }
+                        ExternalLinks { links: publication.links }
                     }
                 }
             }

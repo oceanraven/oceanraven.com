@@ -11,13 +11,13 @@ fn main() {
 
     let renderer = markdown::Renderer::new();
 
-    let mut posts_code = posts::generate(&renderer);
+    let (mut posts_code, post_slugs) = posts::generate(&renderer);
     posts_code.push_str(&format!(
         "pub static SYNTAX_CSS: &str = {:?};\n",
         markdown::syntax_css()
     ));
 
-    let content_code = content::generate(&renderer);
+    let content_code = content::generate(&renderer, &post_slugs);
 
     let out_dir = std::env::var("OUT_DIR").expect("OUT_DIR should be set by Cargo for build scripts");
     let out_dir = Path::new(&out_dir);

@@ -1,0 +1,18 @@
+# status: "active" | "wip" | "archived"
+
+[[projects]]
+name = "oceanraven.com"
+summary = "This site. Built with Dioxus, with build-time Markdown, KaTeX, and syntax highlighting."
+year = 2026
+status = "active"
+tags = ["rust", "dioxus", "wasm"]
+repo = "https://github.com/oceanraven/oceanraven.com"
+
+[[projects]]
+name = "Example Project"
+summary = "One-line description of what it does and why."
+year = 2025
+status = "archived"
+tags = ["python", "pytorch"]
+repo = "https://github.com/oceanraven/example"
+demo = "https://example.com"

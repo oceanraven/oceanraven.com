@@ -1,8 +1,6 @@
-use crate::components::{PageTitle, Prose};
+use crate::components::{PageTitle, Prose, PublicationItem};
 use crate::content::{PUBLICATIONS, RESEARCH_HTML};
 use dioxus::prelude::*;
-
-const MY_NAME: &str = "Seokyoung Yoon";
 
 #[component]
 pub fn Research() -> Element {
@@ -18,7 +16,12 @@ pub fn Research() -> Element {
                     p { class: "text-neutral-600 dark:text-neutral-400", "Nothing here yet." }
                 } else {
                     ul { class: "divide-y divide-neutral-200 dark:divide-neutral-800",
-                        for publication in PUBLICATIONS {}
+                        for publication in PUBLICATIONS {
+                            PublicationItem {
+                                key: "{publication.year}-{publication.title}",
+                                publication,
+                            }
+                        }
                     }
                 }
             }

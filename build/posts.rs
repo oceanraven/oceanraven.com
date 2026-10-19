@@ -17,10 +17,12 @@ struct Post {
     html: String,
 }
 
-pub fn generate(renderer: &Renderer) -> String {
+pub fn generate(renderer: &Renderer) -> (String, Vec<String>) {
     let mut posts = Vec::new();
     for entry in fs::read_dir("posts").expect("posts directory should exist at the project root") {
-        let path = entry.expect("entries in posts directory should be readable").path();
+        let path = entry
+            .expect("entries in posts directory should be readable")
+            .path();
         if !path.is_file() || path.extension().unwrap_or_default() != "md" {
             continue;
         }
@@ -36,7 +38,11 @@ pub fn generate(renderer: &Renderer) -> String {
         let (frontmatter, body) = parse_frontmatter(&source, &path);
         let html = renderer.render(body);
 
-        posts.push(Post { slug, frontmatter, html });
+        posts.push(Post {
+            slug,
+            frontmatter,
+            html,
+        });
     }
     posts.sort_by(|a, b| b.frontmatter.date.cmp(&a.frontmatter.date));
 
@@ -44,11 +50,15 @@ pub fn generate(renderer: &Renderer) -> String {
     for post in &posts {
         code.push_str(&format!(
             "    Post {{ slug: {:?}, title: {:?}, date: {:?}, tags: &{:?}, html: {:?} }},\n",
-            post.slug, post.frontmatter.title, post.frontmatter.date, post.frontmatter.tags, post.html,
+            post.slug,
+            post.frontmatter.title,
+            post.frontmatter.date,
+            post.frontmatter.tags,
+            post.html,
         ));
     }
     code.push_str("];\n");
-    code
+    (code, posts.iter().map(|p| p.slug.clone()).collect())
 }
 
 fn split_frontmatter(post: &str) -> Option<(&str, &str)> {
@@ -59,7 +69,10 @@ fn split_frontmatter(post: &str) -> Option<(&str, &str)> {
 
 fn parse_frontmatter<'a>(post: &'a str, path: &Path) -> (Frontmatter, &'a str) {
     let (raw, body) = split_frontmatter(post).unwrap_or_else(|| {
-        panic!("{}: post must start with a +++ frontmatter block", path.display())
+        panic!(
+            "{}: post must start with a +++ frontmatter block",
+            path.display()
+        )
     });
     let frontmatter = toml::from_str(raw)
         .unwrap_or_else(|e| panic!("{}: invalid frontmatter: {e}", path.display()));
