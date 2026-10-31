@@ -72,13 +72,19 @@ fn collect_links<'a>(candidates: &[(&'a str, &'a Option<String>)]) -> Vec<(&'a s
         .collect()
 }
 
-pub fn generate(renderer: &Renderer, post_slugs: &[String]) -> String {
-    let research_path = "content/research.md";
-    let research_content =
-        fs::read_to_string(research_path).unwrap_or_else(|e| panic!("{research_path}: {e}"));
-    let research_html = renderer.render(&research_content);
+fn render_markdown_file(renderer: &Renderer, path: &str) -> String {
+    let content =
+        fs::read_to_string(path).unwrap_or_else(|e| panic!("{path}: {e}"));
+    renderer.render(&content)
+}
 
-    let mut code = format!("pub static RESEARCH_HTML: &str = {:?};\n", research_html);
+pub fn generate(renderer: &Renderer, post_slugs: &[String]) -> String {
+    let mut code = String::new();
+
+    let research_html = render_markdown_file(renderer, "content/research.md");
+    code.push_str(&format!("pub static RESEARCH_HTML: &str = {:?};\n", research_html));
+    let cv_html = render_markdown_file(renderer, "content/cv.md");
+    code.push_str(&format!("pub static CV_HTML: &str = {:?};\n", cv_html));
 
     let publications_path = "content/publications.toml";
     let publications_content = fs::read_to_string(publications_path)

@@ -1,7 +1,7 @@
 mod components;
+mod content;
 mod pages;
 mod posts;
-mod content;
 
 use dioxus::prelude::*;
 
@@ -67,10 +67,12 @@ const KATEX: Asset = asset!(
 );
 
 fn main() {
-    LaunchBuilder::new()
+    dioxus::LaunchBuilder::new()
         .with_cfg(server_only! {
-            dioxus::server::ServeConfig::builder()
-                .incremental(
+            let mut config = dioxus::server::ServeConfig::builder();
+
+            if !cfg!(debug_assertions) {
+                config = config.incremental(
                     dioxus::server::IncrementalRendererConfig::new()
                         .static_dir(
                             std::env::current_exe()
@@ -80,8 +82,10 @@ fn main() {
                                 .join("public"),
                         )
                         .clear_cache(false),
-                )
-                .enable_out_of_order_streaming()
+                );
+            }
+
+            config.enable_out_of_order_streaming()
         })
         .launch(App);
 }
