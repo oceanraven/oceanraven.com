@@ -62,6 +62,7 @@ impl Feature {
     }
 }
 
+#[derive(PartialEq)]
 pub struct FeatureSource {
     pub model: &'static str,
     pub sae: &'static str,
