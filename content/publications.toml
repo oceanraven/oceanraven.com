@@ -1,18 +1,15 @@
 # kind: "preprint" | "workshop" | "conference" | "journal" | "talk" | "poster"
 
 [[publications]]
-title = "Example Talk: An Introduction to Sparse Autoencoders"
+title = "python을 이용한 천문 분석"
 authors = ["Seokyoung Yoon"]
-venue = "Example Reading Group"
-year = 2026
+venue = "Pycon KR 2024 Lightning Talk"
+year = 2024
 kind = "talk"
-slides = "https://example.com/slides.pdf"
 
 [[publications]]
-title = "Example Project Report: Probing Toy Models of Superposition"
-authors = ["Seokyoung Yoon", "Example Coauthor"]
-venue = "Example Course Project"
+title = "별찍기만으로 파이썬 가르치기"
+authors = ["Seokyoung Yoon"]
+venue = "Pycon KR 2025 Lightning Talk"
 year = 2025
-kind = "preprint"
-pdf = "https://example.com/report.pdf"
-code = "https://github.com/oceanraven/example"
+kind = "talk"

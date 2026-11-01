@@ -9,10 +9,66 @@ tags = ["rust", "dioxus", "wasm"]
 repo = "https://github.com/oceanraven/oceanraven.com"
 
 [[projects]]
-name = "Example Project"
-summary = "One-line description of what it does and why."
+name = "Logic to Computer"
+summary = "The Nand to Tetris Hack computer in SystemVerilog, built up from logic gates to a working CPU."
+year = 2026
+status = "active"
+tags = ["systemverilog", "hardware"]
+repo = "https://github.com/oceanraven/logic-to-computer"
+
+[[projects]]
+name = "M.M.O.7 Linux"
+summary = "Linux support for the Saitek Cyborg M.M.O.7 mouse: horizontal scroll, precision aim, button layers, and DPI presets."
+year = 2026
+status = "active"
+tags = ["python", "linux", "hid"]
+repo = "https://github.com/oceanraven/mmo7-linux"
+
+[[projects]]
+name = "Samsung ULD Manual Duplex"
+summary = "Patches the Samsung Unified Linux Driver to add manual double-sided printing for printers without hardware duplex."
+year = 2026
+status = "archived"
+tags = ["python", "linux", "cups"]
+repo = "https://github.com/oceanraven/samsung-uld-manual-duplex"
+
+[[projects]]
+name = "Interpretable ECG Classifier"
+summary = "Multi-label ECG classifier on PTB-XL with attention, prototypes, counterfactuals, and TCAV concept explanations."
 year = 2025
 status = "archived"
-tags = ["python", "pytorch"]
-repo = "https://github.com/oceanraven/example"
-demo = "https://example.com"
+tags = ["python", "pytorch", "interpretability"]
+repo = "https://github.com/oceanraven/ecg"
+
+[[projects]]
+name = "PyO3-PBFT"
+summary = "An educational simulation of PBFT consensus, written in Rust with Python bindings."
+year = 2025
+status = "archived"
+tags = ["rust", "python", "distributed-systems"]
+repo = "https://github.com/oceanraven/pbft-pyo3"
+
+[[projects]]
+name = "Vector Autograd"
+summary = "A minimal reverse-mode automatic differentiation engine over vectors, from scratch in Rust."
+year = 2025
+status = "archived"
+tags = ["rust", "autodiff"]
+repo = "https://github.com/oceanraven/vector-autograd"
+
+[[projects]]
+name = "Sunja Approve"
+summary = "Online reservation service for the dormitory's self-study room, in daily use from March 2025 to February 2026."
+year = 2025
+status = "archived"
+tags = ["javascript", "react"]
+repo = "https://github.com/oceanraven/sunja-approve"
+
+[[projects]]
+name = "6-Axis Robot Arm Controller"
+summary = "Real-time web control of a 6-axis robot arm, with a SvelteKit UI and a Rust/Tauri backend talking to Arduino."
+year = 2024
+status = "archived"
+tags = ["rust", "tauri", "svelte", "arduino"]
+repo = "https://github.com/oceanraven/arm-control"
+
