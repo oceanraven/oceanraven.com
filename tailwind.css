@@ -131,10 +131,12 @@
     --tw-prose-invert-td-borders: var(--color-neutral-700);
 }
 
-@utility highlight-positive {
-    background-color: color-mix(in oklab, var(--color-primary) calc(var(--activation) * var(--highlight-max)), transparent);
+@property --activation {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0;
 }
 
-@utility highlight-negative {
-    background-color: color-mix(in oklab, var(--color-secondary) calc(var(--activation) * var(--highlight-max)), transparent);
+@utility highlight {
+    background-color: color-mix(in oklab, var(--color-primary) calc(var(--activation) * var(--highlight-max)), transparent);
 }

@@ -45,4 +45,28 @@ pub struct Project {
     pub post: Option<&'static str>,
 }
 
+#[derive(PartialEq)]
+pub struct Feature {
+    pub id: u32,
+    pub label: &'static str,
+    pub activations: &'static [(usize, f32)],
+}
+
+impl Feature {
+    pub fn activation(&self, index: usize) -> f32 {
+        self.activations
+            .iter()
+            .find(|(i, _)| *i == index)
+            .map(|(_, activation)| *activation)
+            .unwrap_or(0.0)
+    }
+}
+
+pub struct FeatureSource {
+    pub model: &'static str,
+    pub sae: &'static str,
+    pub layer: u32,
+    pub neuronpedia: &'static str,
+}
+
 include!(concat!(env!("OUT_DIR"), "/content_generated.rs"));

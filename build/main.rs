@@ -1,4 +1,5 @@
 mod content;
+mod features;
 mod markdown;
 mod posts;
 
@@ -17,9 +18,11 @@ fn main() {
         markdown::syntax_css()
     ));
 
-    let content_code = content::generate(&renderer, &post_slugs);
+    let mut content_code = content::generate(&renderer, &post_slugs);
+    content_code.push_str(&features::generate());
 
-    let out_dir = std::env::var("OUT_DIR").expect("OUT_DIR should be set by Cargo for build scripts");
+    let out_dir =
+        std::env::var("OUT_DIR").expect("OUT_DIR should be set by Cargo for build scripts");
     let out_dir = Path::new(&out_dir);
 
     fs::write(out_dir.join("posts_generated.rs"), posts_code)

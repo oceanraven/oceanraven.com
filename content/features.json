@@ -67,7 +67,7 @@
   "features": [
     {
       "id": 8432,
-      "label": "terms related to machine learning and artificial intelligence, specifically focusing on deep learning and neural networks",
+      "label": "machine learning and neural networks",
       "activations": [
         [
           9,
@@ -101,7 +101,7 @@
     },
     {
       "id": 13659,
-      "label": "phrases related to rust or Rust Belt regions",
+      "label": "rust, the metal (or the Rust Belt)",
       "activations": [
         [
           51,
@@ -111,7 +111,7 @@
     },
     {
       "id": 18953,
-      "label": "first-person singular pronouns ('I', 'me', 'myself') or related to personal experiences or actions",
+      "label": "first-person pronouns",
       "activations": [
         [
           0,
@@ -129,7 +129,7 @@
     },
     {
       "id": 7788,
-      "label": "contractions with \"I am\" followed by a verb",
+      "label": "contractions of \"I am\"",
       "activations": [
         [
           1,
@@ -143,7 +143,7 @@
     },
     {
       "id": 21663,
-      "label": "words related to electrical circuits",
+      "label": "electrical circuits",
       "activations": [
         [
           33,
@@ -153,7 +153,7 @@
     },
     {
       "id": 15870,
-      "label": "verbs related to attempting or striving",
+      "label": "attempting or striving",
       "activations": [
         [
           15,
@@ -171,7 +171,7 @@
     },
     {
       "id": 23745,
-      "label": "phrases related to focus or intense attention",
+      "label": "focus or intense attention",
       "activations": [
         [
           42,

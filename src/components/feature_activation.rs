@@ -1,33 +1,11 @@
 use dioxus::prelude::*;
-
-#[derive(PartialEq)]
-pub struct Feature {
-    pub id: u32,
-    pub label: &'static str,
-    pub activations: &'static [(usize, f32)],
-}
-
-impl Feature {
-    fn activation(&self, index: usize) -> f32 {
-        self.activations
-            .iter()
-            .find(|(i, _)| *i == index)
-            .map(|(_, activation)| *activation)
-            .unwrap_or(0.0)
-    }
-}
+use crate::content::Feature;
 
 fn highlight(activation: f32) -> (&'static str, String) {
     if activation == 0.0 {
         return ("", String::new());
     }
-    let class = if activation > 0.0 {
-        "highlight-positive"
-    } else {
-        "highlight-negative"
-    };
-    let style = format!("--activation: {:.2}", activation.abs().min(1.0));
-    (class, style)
+    ("highlight", format!("--activation: {:.2}", activation))
 }
 
 #[component]
