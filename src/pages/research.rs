@@ -1,10 +1,14 @@
-use crate::components::{PageTitle, Prose, PublicationItem};
+use crate::components::{PageMeta, PageTitle, Prose, PublicationItem};
 use crate::content::{PUBLICATIONS, RESEARCH_HTML};
 use dioxus::prelude::*;
 
 #[component]
 pub fn Research() -> Element {
     rsx! {
+        PageMeta {
+            title: "Research",
+            description: "Research interests, publications, and talks on language model interpretability.",
+        }
         div { class: "space-y-8",
             PageTitle { title: "Research" }
             Prose { html: RESEARCH_HTML }

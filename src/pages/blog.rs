@@ -1,4 +1,4 @@
-use crate::components::{PageTitle, Prose, TagList};
+use crate::components::{PageMeta, PageTitle, Prose, TagList};
 use crate::pages::NotFound;
 use crate::posts::{all_posts, find_post};
 use crate::Route;
@@ -9,6 +9,10 @@ pub fn BlogIndex() -> Element {
     let posts = all_posts();
 
     rsx! {
+        PageMeta {
+            title: "Blog",
+            description: "Notes on interpretability, Rust, and things I'm learning.",
+        }
         div { class: "space-y-8",
             PageTitle { title: "Blog" }
 
@@ -52,6 +56,11 @@ pub fn BlogPost(slug: String) -> Element {
     match post {
         Some(post) => {
             rsx! {
+                PageMeta {
+                    title: post.title,
+                    description: post.description.unwrap_or(crate::SITE_DESCRIPTION),
+                    published: post.date,
+                }
                 div {
                     PageTitle { title: post.title }
                     div { class: "my-4 flex gap-2 font-mono",

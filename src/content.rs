@@ -8,6 +8,7 @@ pub struct Publication {
     pub links: &'static [(&'static str, &'static str)],
 }
 
+#[allow(dead_code)]
 #[derive(Clone, Copy, PartialEq)]
 pub enum Status {
     Active,

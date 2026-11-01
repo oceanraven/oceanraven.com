@@ -10,6 +10,9 @@ use pages::*;
 use posts::SYNTAX_CSS;
 
 pub const AUTHOR: &str = "Seokyoung Yoon";
+pub const SITE_URL: &str = "https://oceanraven.com";
+pub const SITE_DESCRIPTION: &str =
+    "Interpretability research on how language models represent linguistic structure.";
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]

@@ -9,8 +9,8 @@ struct Frontmatter {
     date: String,
     #[serde(default)]
     tags: Vec<String>,
+    description: Option<String>,
 }
-
 struct Post {
     slug: String,
     frontmatter: Frontmatter,
@@ -49,11 +49,12 @@ pub fn generate(renderer: &Renderer) -> (String, Vec<String>) {
     let mut code = String::from("pub static POSTS: &[Post] = &[\n");
     for post in &posts {
         code.push_str(&format!(
-            "    Post {{ slug: {:?}, title: {:?}, date: {:?}, tags: &{:?}, html: {:?} }},\n",
+            "    Post {{ slug: {:?}, title: {:?}, date: {:?}, tags: &{:?}, description: {:?}, html: {:?} }},\n",
             post.slug,
             post.frontmatter.title,
             post.frontmatter.date,
             post.frontmatter.tags,
+            post.frontmatter.description,
             post.html,
         ));
     }

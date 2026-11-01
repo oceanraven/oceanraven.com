@@ -1,10 +1,14 @@
-use crate::components::{PageTitle, ProjectItem};
+use crate::components::{PageMeta, PageTitle, ProjectItem};
 use crate::content::PROJECTS;
 use dioxus::prelude::*;
 
 #[component]
 pub fn Projects() -> Element {
     rsx! {
+        PageMeta {
+            title: "Projects",
+            description: "Things I've built, mostly in Rust and Python.",
+        }
         div { class: "space-y-8",
             div { class: "space-y-3",
 

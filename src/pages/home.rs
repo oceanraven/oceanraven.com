@@ -1,4 +1,4 @@
-use crate::components::{Feature, FeatureActivation, PageTitle};
+use crate::components::{Feature, FeatureActivation, PageMeta, PageTitle};
 use crate::AUTHOR;
 use dioxus::prelude::*;
 
@@ -55,6 +55,7 @@ const FEATURES: &[Feature] = &[
 #[component]
 pub fn Home() -> Element {
     rsx! {
+        PageMeta {}
         div { class: "space-y-6",
             PageTitle { title: AUTHOR }
             FeatureActivation { tokens: TOKENS, features: FEATURES }

@@ -3,6 +3,7 @@ pub struct Post {
     pub title: &'static str,
     pub date: &'static str,
     pub tags: &'static [&'static str],
+    pub description: Option<&'static str>,
     pub html: &'static str,
 }
 

@@ -8,7 +8,7 @@ mod publication_item;
 mod status_badge;
 mod external_links;
 mod project_item;
-
+mod page_meta;
 
 pub use nav_link::NavLink;
 pub use layout::Layout;
@@ -21,3 +21,4 @@ pub use publication_item::PublicationItem;
 pub use status_badge::StatusBadge;
 pub use external_links::{ExternalLinks, META_LINK_CLASS};
 pub use project_item::ProjectItem;
+pub use page_meta::PageMeta;
