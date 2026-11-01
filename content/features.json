@@ -1,0 +1,187 @@
+{
+  "source": {
+    "model": "gpt2-small",
+    "sae": "res-jb",
+    "layer": 8,
+    "neuronpedia": "gpt2-small/8-res-jb"
+  },
+  "tokens": [
+    "I",
+    "'m",
+    " an",
+    " undergraduate",
+    " at",
+    " POST",
+    "ECH",
+    " working",
+    " on",
+    " mechan",
+    "istic",
+    " interpret",
+    "ability",
+    ".",
+    " I",
+    " try",
+    " to",
+    " reverse",
+    "-",
+    "engine",
+    "er",
+    " how",
+    " neural",
+    " networks",
+    " represent",
+    " concepts",
+    " and",
+    " carry",
+    " out",
+    " comput",
+    "ations",
+    ",",
+    " one",
+    " circuit",
+    " at",
+    " a",
+    " time",
+    ".",
+    " When",
+    " I",
+    "'m",
+    " not",
+    " staring",
+    " at",
+    " activ",
+    "ations",
+    ",",
+    " I",
+    " build",
+    " things",
+    " in",
+    " Rust",
+    ",",
+    " including",
+    " this",
+    " site",
+    "."
+  ],
+  "features": [
+    {
+      "id": 8432,
+      "label": "terms related to machine learning and artificial intelligence, specifically focusing on deep learning and neural networks",
+      "activations": [
+        [
+          9,
+          0.06
+        ],
+        [
+          10,
+          0.11
+        ],
+        [
+          22,
+          0.71
+        ],
+        [
+          23,
+          0.6
+        ],
+        [
+          33,
+          0.08
+        ],
+        [
+          44,
+          0.18
+        ],
+        [
+          45,
+          0.1
+        ]
+      ]
+    },
+    {
+      "id": 13659,
+      "label": "phrases related to rust or Rust Belt regions",
+      "activations": [
+        [
+          51,
+          0.8
+        ]
+      ]
+    },
+    {
+      "id": 18953,
+      "label": "first-person singular pronouns ('I', 'me', 'myself') or related to personal experiences or actions",
+      "activations": [
+        [
+          0,
+          0.65
+        ],
+        [
+          1,
+          0.1
+        ],
+        [
+          14,
+          0.17
+        ]
+      ]
+    },
+    {
+      "id": 7788,
+      "label": "contractions with \"I am\" followed by a verb",
+      "activations": [
+        [
+          1,
+          1.0
+        ],
+        [
+          40,
+          0.38
+        ]
+      ]
+    },
+    {
+      "id": 21663,
+      "label": "words related to electrical circuits",
+      "activations": [
+        [
+          33,
+          0.76
+        ]
+      ]
+    },
+    {
+      "id": 15870,
+      "label": "verbs related to attempting or striving",
+      "activations": [
+        [
+          15,
+          0.88
+        ],
+        [
+          16,
+          0.24
+        ],
+        [
+          48,
+          0.35
+        ]
+      ]
+    },
+    {
+      "id": 23745,
+      "label": "phrases related to focus or intense attention",
+      "activations": [
+        [
+          42,
+          0.93
+        ],
+        [
+          43,
+          0.08
+        ]
+      ]
+    }
+  ]
+}

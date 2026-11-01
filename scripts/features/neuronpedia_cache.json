@@ -1,0 +1,362 @@
+{
+  "8/23745": {
+    "max_act": 55.39093780517578,
+    "label": "phrases related to focus or intense attention"
+  },
+  "8/11871": {
+    "max_act": 61.02881240844727,
+    "label": "phrases related to specific examples or instances"
+  },
+  "8/16644": {
+    "max_act": 59.80977249145508,
+    "label": "terms related to reversing or undoing actions or processes"
+  },
+  "8/7788": {
+    "max_act": 46.72119140625,
+    "label": "contractions with \"I am\" followed by a verb"
+  },
+  "8/9929": {
+    "max_act": 53.71757507324219,
+    "label": "mentions of languages or language-related terms"
+  },
+  "8/13659": {
+    "max_act": 56.7939453125,
+    "label": "phrases related to rust or Rust Belt regions"
+  },
+  "8/14405": {
+    "max_act": 55.14293670654297,
+    "label": "keywords related to construction or development"
+  },
+  "8/21663": {
+    "max_act": 52.03955841064453,
+    "label": "words related to electrical circuits"
+  },
+  "8/20522": {
+    "max_act": 46.88333892822266,
+    "label": "phrases related to deep meanings or interpretations"
+  },
+  "8/2092": {
+    "max_act": 57.30653762817383,
+    "label": "triggers related to the start of a sentence"
+  },
+  "8/7948": {
+    "max_act": 46.61573791503906,
+    "label": "words related to organization, structure, and system"
+  },
+  "8/11742": {
+    "max_act": 62.29371643066406,
+    "label": "phrases related to attempting something"
+  },
+  "8/10220": {
+    "max_act": 46.3206901550293,
+    "label": "tutorials or demonstrations on how to accomplish various tasks or objectives"
+  },
+  "8/9300": {
+    "max_act": 45.29652404785156,
+    "label": "the word \"model\" or variations of it"
+  },
+  "8/12323": {
+    "max_act": 37.02052307128906,
+    "label": "phrases or terms related to activation or being activated"
+  },
+  "8/19942": {
+    "max_act": 40.23560333251953,
+    "label": "references to websites or online platforms"
+  },
+  "8/8432": {
+    "max_act": 39.7026481628418,
+    "label": "terms related to machine learning and artificial intelligence, specifically focusing on deep learning and neural networks"
+  },
+  "8/9453": {
+    "max_act": 48.46944808959961,
+    "label": "phrases related to cost or value"
+  },
+  "8/17404": {
+    "max_act": 37.49411773681641,
+    "label": "specific words or types of words"
+  },
+  "8/2441": {
+    "max_act": 43.48177719116211,
+    "label": "instances of studying or education-related activities"
+  },
+  "8/12887": {
+    "max_act": 35.38626098632812,
+    "label": "personal experiences starting with \"When I\" statements"
+  },
+  "8/4662": {
+    "max_act": 40.66252136230469,
+    "label": "mentions of various types of inclusions or organizational entities within a broader context"
+  },
+  "8/772": {
+    "max_act": 56.14311218261719,
+    "label": "keywords related to the word \"Word\""
+  },
+  "8/24343": {
+    "max_act": 31.15422248840332,
+    "label": "phrases related to presenting instructions or examples"
+  },
+  "8/13990": {
+    "max_act": 27.0310230255127,
+    "label": "the personal pronoun \"I\""
+  },
+  "8/19910": {
+    "max_act": 76.28856658935547,
+    "label": "references to \"post\" followed by numbers indicating significant events or eras"
+  },
+  "8/3156": {
+    "max_act": 53.32039260864258,
+    "label": "phrases related to the process of learning"
+  },
+  "8/9890": {
+    "max_act": 44.86124801635742,
+    "label": "phrases related to simultaneous actions or events"
+  },
+  "8/4966": {
+    "max_act": 43.35663604736328,
+    "label": "phrases indicating attempts or efforts to accomplish something"
+  },
+  "8/625": {
+    "max_act": 40.41949844360352,
+    "label": "personal pronouns and requests for assistance"
+  },
+  "23745": {
+    "label": "phrases related to focus or intense attention",
+    "max_act": 55.39093780517578
+  },
+  "4492": {
+    "label": "instances of the word \"carry\"",
+    "max_act": 55.62054443359375
+  },
+  "7788": {
+    "label": "contractions with \"I am\" followed by a verb",
+    "max_act": 46.72119140625
+  },
+  "13659": {
+    "label": "phrases related to rust or Rust Belt regions",
+    "max_act": 56.7939453125
+  },
+  "16644": {
+    "label": "terms related to reversing or undoing actions or processes",
+    "max_act": 59.80977249145508
+  },
+  "19617": {
+    "label": "words related to interpreting or interpretation",
+    "max_act": 38.96563720703125
+  },
+  "21663": {
+    "label": "words related to electrical circuits",
+    "max_act": 52.03955841064453
+  },
+  "10527": {
+    "label": "phrases related to ongoing work or projects",
+    "max_act": 40.55658721923828
+  },
+  "14405": {
+    "label": "keywords related to construction or development",
+    "max_act": 55.14293670654297
+  },
+  "9712": {
+    "label": "phrases related to carrying out actions or tasks",
+    "max_act": 45.53252029418945
+  },
+  "11742": {
+    "label": "phrases related to attempting something",
+    "max_act": 62.29371643066406
+  },
+  "2092": {
+    "label": "triggers related to the start of a sentence",
+    "max_act": 57.30653762817383
+  },
+  "9453": {
+    "label": "phrases related to cost or value",
+    "max_act": 48.46944808959961
+  },
+  "19942": {
+    "label": "references to websites or online platforms",
+    "max_act": 40.23560333251953
+  },
+  "12323": {
+    "label": "phrases or terms related to activation or being activated",
+    "max_act": 37.02052307128906
+  },
+  "16090": {
+    "label": "the word \"concept\" within text",
+    "max_act": 44.2086296081543
+  },
+  "4662": {
+    "label": "mentions of various types of inclusions or organizational entities within a broader context",
+    "max_act": 40.66252136230469
+  },
+  "8432": {
+    "label": "terms related to machine learning and artificial intelligence, specifically focusing on deep learning and neural networks",
+    "max_act": 39.7026481628418
+  },
+  "12887": {
+    "label": "personal experiences starting with \"When I\" statements",
+    "max_act": 35.38626098632812
+  },
+  "11361": {
+    "label": "phrases related to people working in different professions or job positions",
+    "max_act": 56.43843078613281
+  },
+  "24343": {
+    "label": "phrases related to presenting instructions or examples",
+    "max_act": 31.15422248840332
+  },
+  "1696": {
+    "label": "phrases relating to decisions or actions to be taken",
+    "max_act": 49.50456619262695
+  },
+  "13990": {
+    "label": "the personal pronoun \"I\"",
+    "max_act": 27.0310230255127
+  },
+  "19910": {
+    "label": "references to \"post\" followed by numbers indicating significant events or eras",
+    "max_act": 76.28856658935547
+  },
+  "7610": {
+    "label": "mentions of computing power and technology specifications",
+    "max_act": 42.37785720825195
+  },
+  "9890": {
+    "label": "phrases related to simultaneous actions or events",
+    "max_act": 44.86124801635742
+  },
+  "23152": {
+    "label": "phrases related to transitioning from one state or location to another",
+    "max_act": 29.37744903564453
+  },
+  "8984": {
+    "label": "terms related to representation and representing",
+    "max_act": 43.19792938232422
+  },
+  "625": {
+    "label": "personal pronouns and requests for assistance",
+    "max_act": 40.41949844360352
+  },
+  "4966": {
+    "label": "phrases indicating attempts or efforts to accomplish something",
+    "max_act": 43.35663604736328
+  },
+  "20154": {
+    "label": "phrases where the concept of something being \"an\" important or effective element is emphasized",
+    "max_act": 35.36948776245117
+  },
+  "17533": {
+    "label": "the word \"not\" with emphasis",
+    "max_act": 50.34819793701172
+  },
+  "14695": {
+    "label": "mentions or references to engines and related components",
+    "max_act": 47.35811614990234
+  },
+  "21946": {
+    "label": "academic positions and affiliations, particularly with universities",
+    "max_act": 46.82257843017578
+  },
+  "4634": {
+    "label": "phrases related to the concept of importance or significance",
+    "max_act": 34.56007766723633
+  },
+  "18615": {
+    "label": "keywords related to networks, such as \"network drive,\" \"network printer,\" and \"network peers.\"",
+    "max_act": 48.64623641967773
+  },
+  "21177": {
+    "label": "words related to counter-intelligence and counter-terrorism",
+    "max_act": 47.47879028320312
+  },
+  "9566": {
+    "label": "phrases related to looking at or examining something",
+    "max_act": 36.38664245605469
+  },
+  "1765": {
+    "label": "keywords related to compensation and escalation",
+    "max_act": 32.10044097900391
+  },
+  "8022": {
+    "label": "verbs related to actions indicating reversal or undoing",
+    "max_act": 31.42416191101074
+  },
+  "7740": {
+    "label": "numerical terms indicating a sequence of actions",
+    "max_act": 18.66818046569824
+  },
+  "8094": {
+    "label": "phrases referring to individuals with specific roles or positions",
+    "max_act": 34.83253479003906
+  },
+  "1522": {
+    "label": "programming languages and frameworks used in web development",
+    "max_act": 31.05130767822266
+  },
+  "8250": {
+    "label": "terms related to the working class",
+    "max_act": 57.0484504699707
+  },
+  "7920": {
+    "label": "mentions of questions",
+    "max_act": 15.56254386901855
+  },
+  "6318": {
+    "label": "terms related to reliability, durability, efficacy, and effectiveness",
+    "max_act": 29.10404586791992
+  },
+  "18953": {
+    "label": "first-person singular pronouns ('I', 'me', 'myself') or related to personal experiences or actions",
+    "max_act": 27.28730201721191
+  },
+  "5960": {
+    "label": "verbs that indicate an attempt or effort",
+    "max_act": 62.05304336547852
+  },
+  "19172": {
+    "label": "verbs or phrases related to making an effort or striving for something",
+    "max_act": 24.53772735595703
+  },
+  "15374": {
+    "label": "mention of a specific news outlet",
+    "max_act": 45.02677917480469
+  },
+  "5155": {
+    "label": "phrases indicating strong personal preferences or opinions",
+    "max_act": 20.73466682434082
+  },
+  "8182": {
+    "label": "terms related to numerical or scientific data values",
+    "max_act": 29.82501983642578
+  },
+  "10379": {
+    "label": "terms related to the nervous system and medical conditions associated with nerves",
+    "max_act": 54.48688888549805
+  },
+  "14927": {
+    "label": "numerical quantities or rankings",
+    "max_act": 21.26952362060547
+  },
+  "10220": {
+    "label": "tutorials or demonstrations on how to accomplish various tasks or objectives",
+    "max_act": 46.3206901550293
+  },
+  "4630": {
+    "label": "mentions of graduate programs or students",
+    "max_act": 60.63501739501953
+  },
+  "16199": {
+    "label": "instances of the word \"an\" in the text",
+    "max_act": 36.50069427490234
+  },
+  "15870": {
+    "label": "verbs related to attempting or striving",
+    "max_act": 16.74779510498047
+  },
+  "13459": {
+    "label": "technical terms or specialized jargon related to various fields, such as technology, politics, entertainment, and medical sciences",
+    "max_act": 25.50215148925781
+  },
+  "10593": {
+    "label": "scientific and medical language related to the nervous system",
+    "max_act": 73.21330261230469
+  }
+}
