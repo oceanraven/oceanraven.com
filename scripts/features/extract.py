@@ -23,6 +23,15 @@ LAYER = 8
 NUM_CANDIDATES = 30
 CANDIDATE_POOL = 60
 CHOSEN: list[int] = [8432, 13659, 18953, 7788, 21663, 15870, 23745]
+LABEL_OVERRIDES: dict[int, str] = {
+    8432: "machine learning and neural networks",
+    13659: "rust, the metal (or the Rust Belt)",
+    18953: "first-person pronouns",
+    7788: "contractions of \"I am\"",
+    21663: "electrical circuits",
+    15870: "attempting or striving",
+    23745: "focus or intense attention",
+}
 MIN_ACTIVATION = 0.05
 REQUEST_DELAY = 0.1
 
@@ -174,14 +183,15 @@ def export() -> None:
     features: list[dict[str, object]] = []
     for feature in CHOSEN:
         info = feature_info(neuronpedia_id, feature, cache)
+        label = LABEL_OVERRIDES.get(feature, info["label"])
         activations = sparse_activations(acts[:, feature], info["max_act"])
         if not activations:
             print(f"warning: feature {feature} has no activation above {MIN_ACTIVATION}")
 
-        print(f"\n#{feature} · {info['label']}")
+        print(f"\n#{feature} · {label}")
         print(preview(words, activations))
 
-        features.append({"id": feature, "label": info["label"], "activations": activations})
+        features.append({"id": feature, "label": label, "activations": activations})
 
     result = {
         "source": {"model": "gpt2-small", "sae": "res-jb", "layer": LAYER, "neuronpedia": neuronpedia_id},
