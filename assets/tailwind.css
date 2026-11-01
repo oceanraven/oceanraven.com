@@ -891,6 +891,9 @@
   .shrink-0 {
     flex-shrink: 0;
   }
+  .cursor-default {
+    cursor: default;
+  }
   .cursor-pointer {
     cursor: pointer;
   }
@@ -1058,8 +1061,14 @@
   .underline {
     text-decoration-line: underline;
   }
+  .decoration-secondary {
+    text-decoration-color: var(--color-secondary);
+  }
   .decoration-dotted {
     text-decoration-style: dotted;
+  }
+  .decoration-2 {
+    text-decoration-thickness: 2px;
   }
   .underline-offset-4 {
     text-underline-offset: 4px;
