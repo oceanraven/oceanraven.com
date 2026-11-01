@@ -1,7 +1,9 @@
 use dioxus::prelude::*;
-use crate::{Route, AUTHOR};
-use super::NavLink;
 
+use super::NavLink;
+use crate::{Route, AUTHOR};
+
+const LOGO: Asset = asset!("/assets/logo.svg");
 
 #[component]
 pub fn Layout() -> Element {
@@ -9,7 +11,17 @@ pub fn Layout() -> Element {
         div { class: "mx-auto flex min-h-screen w-full max-w-3xl flex-col px-6",
             header {
                 nav { class: "flex flex-wrap items-center justify-between gap-y-2 py-6",
-                    Link { class: "font-semibold", to: Route::Home {}, "{AUTHOR}" }
+                    Link {
+                        class: "flex items-center gap-2 font-semibold",
+                        to: Route::Home {},
+                        img {
+                            class: "h-12 w-auto",
+                            src: LOGO,
+                            alt: "",
+                            aria_hidden: "true",
+                        }
+                        "{AUTHOR}"
+                    }
                     div { class: "flex gap-4 font-mono text-sm",
                         NavLink { to: Route::Research {}, "Research" }
                         NavLink { to: Route::Projects {}, "Projects" }

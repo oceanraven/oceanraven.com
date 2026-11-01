@@ -55,7 +55,7 @@ async fn static_routes() -> Result<Vec<String>, ServerFnError> {
     Ok(routes)
 }
 
-const FAVICON: Asset = asset!("/assets/favicon.ico");
+const FAVICON: Asset = asset!("/assets/logo.svg");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const FONTS: Asset = asset!(
     "/assets/fonts",
@@ -94,7 +94,7 @@ fn main() {
 fn App() -> Element {
     rsx! {
         Meta { charset: "utf-8" }
-        document::Link { rel: "icon", href: FAVICON }
+        document::Link { rel: "icon", r#type: "image/svg+xml", href: FAVICON }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link {
             rel: "preload",
