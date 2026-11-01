@@ -104,7 +104,7 @@ pub fn FeatureActivation(
                 }
             }
         }
-        div { class: "mt-3 flex justify-between gap-4 font-mono text-xs text-neutral-600 dark:text-neutral-400",
+        div { class: "mt-3 flex flex-col gap-2 md:flex-row md:justify-between md:gap-4 font-mono text-xs text-neutral-600 dark:text-neutral-400",
             span { "{source.model} · layer {source.layer} · {source.sae} SAE" }
             if let Some(readout) = readout {
                 span { "{readout}" }
