@@ -55,12 +55,11 @@ Cache = dict[str, FeatureInfo]
 
 
 def load() -> tuple[TransformerBridge, SAE]:
-    loaded = SAE.from_pretrained(
+    sae = SAE.from_pretrained(
         release=RELEASE,
         sae_id=f"blocks.{LAYER}.hook_resid_pre",
         device=DEVICE,
     )
-    sae = cast(SAE, loaded[0] if isinstance(loaded, tuple) else loaded)
 
     model = TransformerBridge.boot_transformers(MODEL, device=DEVICE)
     kwargs: dict = sae.cfg.metadata.model_from_pretrained_kwargs or {}

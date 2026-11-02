@@ -487,6 +487,7 @@ dependencies = [
     { name = "requests" },
     { name = "sae-lens" },
     { name = "torch" },
+    { name = "tqdm" },
     { name = "transformer-lens" },
 ]
 
@@ -496,6 +497,7 @@ requires-dist = [
     { name = "requests", specifier = ">=2.34.2" },
     { name = "sae-lens", specifier = ">=6.54.12" },
     { name = "torch", specifier = ">=2.9.1", index = "https://download.pytorch.org/whl/xpu" },
+    { name = "tqdm", specifier = ">=4.70.1" },
     { name = "transformer-lens", specifier = "<4" },
 ]
 

@@ -10,6 +10,7 @@ dependencies = [
     "requests>=2.34.2",
     "sae-lens>=6.54.12",
     "torch>=2.9.1",
+    "tqdm>=4.70.1",
     "transformer-lens<4",
 ]
 
