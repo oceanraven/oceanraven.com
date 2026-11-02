@@ -9,6 +9,7 @@ mod status_badge;
 mod external_links;
 mod project_item;
 mod page_meta;
+mod superposition_plot;
 
 pub use nav_link::NavLink;
 pub use layout::Layout;
@@ -21,3 +22,4 @@ pub use status_badge::StatusBadge;
 pub use external_links::{ExternalLinks, META_LINK_CLASS};
 pub use project_item::ProjectItem;
 pub use page_meta::PageMeta;
+pub use superposition_plot::SuperpositionPlot;
