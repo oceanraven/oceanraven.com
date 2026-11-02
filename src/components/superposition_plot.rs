@@ -6,11 +6,17 @@ const LABEL_MIN_NORM: f32 = 0.1;
 const LABEL_GAP: f32 = 0.18;
 const INTERFERENCE_MIN: f32 = 0.05;
 const DIMMED_OPACITY: f32 = 0.2;
+const MIN_LENGTH: f32 = 1e-3;
+const TIP_RADIUS: f32 = 0.045;
+const HIT_RADIUS: f32 = 0.16;
+const MOTION_CLASS: &str = "transition-transform duration-500 ease-out motion-reduce:transition-none";
 
 struct ArrowView {
     index: usize,
-    tip: (f32, f32),
-    label: Option<(f32, f32)>,
+    arrow_style: String,
+    length: f32,
+    visible: bool,
+    label_style: Option<String>,
     opacity: f32,
     stroke_class: &'static str,
     fill_class: &'static str,
@@ -29,6 +35,17 @@ fn emphasis(value: f32, min: f32, max: f32) -> f32 {
         return 1.0;
     }
     0.4 + 0.6 * (value - min) / (max - min)
+}
+
+fn arrow_transform((x, y): (f32, f32)) -> String {
+    format!(
+        "transform-box: view-box; transform-origin: 0 0; transform: matrix({x}, {y}, {}, {x}, 0, 0);",
+        -y
+    )
+}
+
+fn translate((x, y): (f32, f32)) -> String {
+    format!("transform-box: view-box; transform-origin: 0 0; transform: translate({x}px, {y}px);")
 }
 
 fn interference_label(vectors: &[(f32, f32)], index: usize) -> String {
@@ -66,9 +83,15 @@ pub fn SuperpositionPlot(steps: &'static [SparsityStep], importance: &'static [f
 
     let arrows = step.vectors.iter().enumerate().map(|(index, &(x, y))| {
         let norm = x.hypot(y);
-        let label = (norm >= LABEL_MIN_NORM).then(|| {
+        let visible = norm >= LABEL_MIN_NORM;
+        let (direction, length) = if norm < MIN_LENGTH {
+            ((MIN_LENGTH, 0.0), MIN_LENGTH)
+        } else {
+            (to_svg((x, y)), norm)
+        };
+        let label_style = visible.then(|| {
             let scale = (norm + LABEL_GAP) / norm;
-            to_svg((x * scale, y * scale))
+            translate(to_svg((x * scale, y * scale)))
         });
 
         let (opacity, stroke_class, fill_class) = match hovered_index {
@@ -90,8 +113,10 @@ pub fn SuperpositionPlot(steps: &'static [SparsityStep], importance: &'static [f
 
         ArrowView {
             index,
-            tip: to_svg((x, y)),
-            label,
+            arrow_style: arrow_transform(direction),
+            length,
+            visible,
+            label_style,
             opacity,
             stroke_class,
             fill_class,
@@ -106,6 +131,7 @@ pub fn SuperpositionPlot(steps: &'static [SparsityStep], importance: &'static [f
                 view_box: VIEW_BOX,
                 class: "mx-auto w-full max-w-xs",
                 role: "img",
+                "aria-label": "Feature directions at sparsity {step.sparsity:.2}",
                 onclick: move |_| hovered.set(None),
                 circle {
                     cx: "0",
@@ -116,55 +142,61 @@ pub fn SuperpositionPlot(steps: &'static [SparsityStep], importance: &'static [f
                     stroke_dasharray: "0.04 0.04",
                     class: "stroke-neutral-300 dark:stroke-neutral-700",
                 }
-                for ArrowView { index, tip: (tx, ty), label, opacity, stroke_class, fill_class } in arrows {
+                for ArrowView { index, arrow_style, length, visible, label_style, opacity, stroke_class, fill_class } in arrows {
                     g { key: "{index}",
-                        line {
-                            x1: "0",
-                            y1: "0",
-                            x2: "{tx}",
-                            y2: "{ty}",
-                            stroke_width: "0.03",
-                            stroke_linecap: "round",
-                            stroke_opacity: "{opacity:.2}",
-                            class: stroke_class,
+                        g { class: MOTION_CLASS, style: arrow_style,
+                            line {
+                                x1: "0",
+                                y1: "0",
+                                x2: "1",
+                                y2: "0",
+                                stroke_width: "2.5",
+                                stroke_linecap: "round",
+                                stroke_opacity: "{opacity:.2}",
+                                vector_effect: "non-scaling-stroke",
+                                class: stroke_class,
+                            }
+                            if visible {
+                                circle {
+                                    cx: "1",
+                                    cy: "0",
+                                    r: "{TIP_RADIUS / length}",
+                                    fill_opacity: "{opacity:.2}",
+                                    class: fill_class,
+                                }
+                                circle {
+                                    cx: "1",
+                                    cy: "0",
+                                    r: "{HIT_RADIUS / length}",
+                                    fill: "transparent",
+                                    class: "cursor-pointer",
+                                    onpointerenter: move |event| {
+                                        if event.pointer_type() == "mouse" {
+                                            hovered.set(Some(index));
+                                        }
+                                    },
+                                    onpointerleave: move |event| {
+                                        if event.pointer_type() == "mouse" {
+                                            hovered.set(None);
+                                        }
+                                    },
+                                    onclick: move |event| {
+                                        event.stop_propagation();
+                                        hovered.set(Some(index));
+                                    },
+                                }
+                            }
                         }
-                        circle {
-                            cx: "{tx}",
-                            cy: "{ty}",
-                            r: "0.045",
-                            fill_opacity: "{opacity:.2}",
-                            class: fill_class,
-                        }
-                        if let Some((lx, ly)) = label {
+                        if let Some(label_style) = label_style {
                             text {
-                                x: "{lx}",
-                                y: "{ly}",
+                                x: "0",
+                                y: "0",
                                 font_size: "0.14",
                                 text_anchor: "middle",
                                 dominant_baseline: "middle",
-                                class: "fill-neutral-600 font-mono dark:fill-neutral-400",
+                                class: "fill-neutral-600 font-mono dark:fill-neutral-400 {MOTION_CLASS}",
+                                style: label_style,
                                 "{index}"
-                            }
-                            circle {
-                                cx: "{tx}",
-                                cy: "{ty}",
-                                r: "0.16",
-                                fill: "transparent",
-                                class: "cursor-pointer",
-                                onpointerenter: move |event| {
-                                    if event.pointer_type() == "mouse" {
-                                        hovered.set(Some(index));
-                                    }
-                                },
-                                onpointerleave: move |event| {
-                                    if event.pointer_type() == "mouse" {
-                                        hovered.set(None);
-                                    }
-                                },
-                                onclick: move |event| {
-                                    event.stop_propagation();
-                                    hovered.set(Some(index));
-                                },
                             }
                         }
                     }
@@ -172,9 +204,7 @@ pub fn SuperpositionPlot(steps: &'static [SparsityStep], importance: &'static [f
             }
 
             div { class: "mt-4 flex items-center gap-4 font-mono text-xs text-neutral-600 dark:text-neutral-400",
-                label { r#for: "sparsity", class: "shrink-0 tabular-nums",
-                    "sparsity {step.sparsity:.2}"
-                }
+                label { r#for: "sparsity", class: "shrink-0 tabular-nums", "sparsity {step.sparsity:.2}" }
                 input {
                     id: "sparsity",
                     r#type: "range",

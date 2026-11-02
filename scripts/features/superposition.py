@@ -1,6 +1,6 @@
 import json
-from pathlib import Path
 import math
+from pathlib import Path
 
 import torch
 from tqdm import tqdm
@@ -8,16 +8,16 @@ from tqdm import tqdm
 DEVICE = "cuda" if torch.cuda.is_available() else "xpu" if torch.xpu.is_available() else "cpu"
 N_FEATURES = 5
 N_HIDDEN = 2
-SPARSITIES = [0.0, 0.5, 0.7, 0.8, 0.9, 0.95, 0.99]
+N_SPARSITIES = 11
+MIN_DENSITY = 0.01
+SPARSITIES = [round(1 - MIN_DENSITY ** (i / (N_SPARSITIES - 1)), 3) for i in range(N_SPARSITIES)]
+N_SEEDS = 64
 STEPS = 10_000
 BATCH = 1024
 LR = 1e-3
-N_SEEDS = 64
 SEED = 0
 EVAL_SIZE = 100_000
 EVAL_SEED = 1234
-LOSS_TOLERANCE = 0.02
-REPRESENTATION_TOLERANCE = 0.5
 
 IMPORTANCE = torch.tensor([0.9 ** i for i in range(N_FEATURES)], device=DEVICE)
 
@@ -26,10 +26,11 @@ OUTPUT_PATH = HERE.parents[1] / "content" / "superposition.json"
 
 
 def sample_batch(
-        sparsity: float, size: int = BATCH, generator: torch.Generator | None = None
+        density: torch.Tensor, size: int, generator: torch.Generator | None = None
 ) -> torch.Tensor:
-    values = torch.rand(size, N_FEATURES, device=DEVICE, generator=generator)
-    keep = torch.rand(size, N_FEATURES, device=DEVICE, generator=generator) < (1 - sparsity)
+    shape = (*density.shape, size, N_FEATURES)
+    values = torch.rand(shape, device=DEVICE, generator=generator)
+    keep = torch.rand(shape, device=DEVICE, generator=generator) < density[..., None, None]
     return values * keep
 
 
@@ -38,36 +39,37 @@ def reconstruction_loss(x: torch.Tensor, W: torch.Tensor, b: torch.Tensor) -> to
     return (IMPORTANCE * (x - out) ** 2).sum(dim=-1).mean(dim=-1)
 
 
-def represented(W: torch.Tensor) -> int:
-    return int((W.norm(dim=0) > REPRESENTATION_TOLERANCE).sum().item())
-
-
-def evaluate(W: torch.Tensor, b: torch.Tensor, sparsity: float) -> list[float]:
-    generator = torch.Generator(device=DEVICE).manual_seed(EVAL_SEED)
-    with torch.no_grad():
-        x = sample_batch(sparsity, EVAL_SIZE, generator)
-        return reconstruction_loss(x, W, b).tolist()
-
-
-def train(sparsity: float) -> list[tuple[torch.Tensor, float]]:
+def train() -> tuple[torch.Tensor, torch.Tensor]:
     torch.manual_seed(SEED)
 
+    n_models = N_SPARSITIES * N_SEEDS
+    density = (1 - torch.tensor(SPARSITIES, device=DEVICE)).repeat_interleave(N_SEEDS)
+
     scale = math.sqrt(2 / (N_HIDDEN + N_FEATURES))
-    W = torch.nn.Parameter(torch.randn(N_SEEDS, N_HIDDEN, N_FEATURES, device=DEVICE) * scale)
-    b = torch.nn.Parameter(torch.zeros(N_SEEDS, N_FEATURES, device=DEVICE))
+    W = torch.nn.Parameter(torch.randn(n_models, N_HIDDEN, N_FEATURES, device=DEVICE) * scale)
+    b = torch.nn.Parameter(torch.zeros(n_models, N_FEATURES, device=DEVICE))
 
     optimizer = torch.optim.Adam([W, b], lr=LR)
 
-    for _ in tqdm(range(STEPS), desc=f"S={sparsity:.2f}", leave=False):
-        x = sample_batch(sparsity, N_SEEDS * BATCH).view(N_SEEDS, BATCH, N_FEATURES)
-        loss = reconstruction_loss(x, W, b).sum()
+    for _ in tqdm(range(STEPS), desc="training", leave=False):
+        loss = reconstruction_loss(sample_batch(density, BATCH), W, b).sum()
 
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
-    W, b = W.detach(), b.detach()
-    return list(zip(W.cpu().unbind(0), evaluate(W, b, sparsity)))
+    return (
+        W.detach().view(N_SPARSITIES, N_SEEDS, N_HIDDEN, N_FEATURES),
+        b.detach().view(N_SPARSITIES, N_SEEDS, N_FEATURES),
+    )
+
+
+def evaluate(W: torch.Tensor, b: torch.Tensor, sparsity: float) -> torch.Tensor:
+    generator = torch.Generator(device=DEVICE).manual_seed(EVAL_SEED)
+    density = torch.tensor(1 - sparsity, device=DEVICE)
+    with torch.no_grad():
+        x = sample_batch(density, EVAL_SIZE, generator)
+        return reconstruction_loss(x, W, b)
 
 
 def align(W: torch.Tensor) -> torch.Tensor:
@@ -89,46 +91,28 @@ def align(W: torch.Tensor) -> torch.Tensor:
     return W
 
 
-def describe(sparsity: float, W: torch.Tensor) -> None:
+def describe(sparsity: float, loss: float, W: torch.Tensor) -> None:
     norms = W.norm(dim=0).tolist()
     angles = [
         f"{math.degrees(math.atan2(y, x)):4.0f}" if norm >= 0.1 else "   -"
         for (x, y), norm in zip(W.T.tolist(), norms)
     ]
-    print(f"S={sparsity:.2f}  norms: {' '.join(f'{n:.2f}' for n in norms)}  angles: {' '.join(angles)}")
-
-
-def mirror(W: torch.Tensor) -> torch.Tensor:
-    M = W.clone()
-    M[0, :] *= -1
-    return M
-
-
-def distance(A: torch.Tensor, B: torch.Tensor) -> float:
-    return ((A - B) ** 2).sum().item()
+    print(
+        f"S={sparsity:.3f}  loss: {loss:.5f}  "
+        f"norms: {' '.join(f'{n:.2f}' for n in norms)}  angles: {' '.join(angles)}"
+    )
 
 
 def main():
+    weights, biases = train()
+
     steps = []
-    previous: torch.Tensor | None = None
-    for sparsity in SPARSITIES:
-        results = train(sparsity)
-        best_W, best_loss = min(results, key=lambda result: result[1])
-        candidates = [
-            align(W)
-            for W, loss in results
-            if loss <= best_loss * (1 + LOSS_TOLERANCE) and represented(W) == represented(best_W)
-        ]
-        print(f"S={sparsity:.2f}  best loss: {best_loss:.5f}  candidates: {len(candidates)}")
+    for sparsity, W_seeds, b_seeds in zip(SPARSITIES, weights, biases):
+        losses = evaluate(W_seeds, b_seeds, sparsity)
+        best = int(losses.argmin().item())
+        W = align(W_seeds[best].cpu())
 
-        if previous is None:
-            W = align(best_W)
-        else:
-            options = candidates + [mirror(W) for W in candidates]
-            W = min(options, key=lambda option: distance(option, previous))
-        previous = W
-
-        describe(sparsity, W)
+        describe(sparsity, losses[best].item(), W)
         vectors = [[round(x, 3), round(y, 3)] for x, y in W.T.tolist()]
         steps.append({"sparsity": sparsity, "vectors": vectors})
 
