@@ -12,10 +12,12 @@ SPARSITIES = [0.0, 0.5, 0.7, 0.8, 0.9, 0.95, 0.99]
 STEPS = 10_000
 BATCH = 1024
 LR = 1e-3
-SEEDS = range(5)
+N_SEEDS = 64
+SEED = 0
 EVAL_SIZE = 100_000
 EVAL_SEED = 1234
 LOSS_TOLERANCE = 0.02
+REPRESENTATION_TOLERANCE = 0.5
 
 IMPORTANCE = torch.tensor([0.9 ** i for i in range(N_FEATURES)], device=DEVICE)
 
@@ -32,34 +34,40 @@ def sample_batch(
 
 
 def reconstruction_loss(x: torch.Tensor, W: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
-    out = torch.relu(x @ W.T @ W + b)
-    return (IMPORTANCE * (x - out) ** 2).sum(dim=1).mean()
+    out = torch.relu(x @ W.transpose(-1, -2) @ W + b.unsqueeze(-2))
+    return (IMPORTANCE * (x - out) ** 2).sum(dim=-1).mean(dim=-1)
 
 
-def evaluate(W: torch.Tensor, b: torch.Tensor, sparsity: float) -> float:
+def represented(W: torch.Tensor) -> int:
+    return int((W.norm(dim=0) > REPRESENTATION_TOLERANCE).sum().item())
+
+
+def evaluate(W: torch.Tensor, b: torch.Tensor, sparsity: float) -> list[float]:
     generator = torch.Generator(device=DEVICE).manual_seed(EVAL_SEED)
     with torch.no_grad():
         x = sample_batch(sparsity, EVAL_SIZE, generator)
-        return reconstruction_loss(x, W, b).item()
+        return reconstruction_loss(x, W, b).tolist()
 
 
-def train(sparsity: float, seed: int) -> tuple[torch.Tensor, float]:
-    torch.manual_seed(seed)
+def train(sparsity: float) -> list[tuple[torch.Tensor, float]]:
+    torch.manual_seed(SEED)
 
-    W = torch.nn.Parameter(torch.empty(N_HIDDEN, N_FEATURES, device=DEVICE))
-    torch.nn.init.xavier_normal_(W)
-    b = torch.nn.Parameter(torch.zeros(N_FEATURES, device=DEVICE))
+    scale = math.sqrt(2 / (N_HIDDEN + N_FEATURES))
+    W = torch.nn.Parameter(torch.randn(N_SEEDS, N_HIDDEN, N_FEATURES, device=DEVICE) * scale)
+    b = torch.nn.Parameter(torch.zeros(N_SEEDS, N_FEATURES, device=DEVICE))
 
     optimizer = torch.optim.Adam([W, b], lr=LR)
 
-    for _ in tqdm(range(STEPS), desc=f"S={sparsity:.2f} seed={seed}", leave=False):
-        loss = reconstruction_loss(sample_batch(sparsity), W, b)
+    for _ in tqdm(range(STEPS), desc=f"S={sparsity:.2f}", leave=False):
+        x = sample_batch(sparsity, N_SEEDS * BATCH).view(N_SEEDS, BATCH, N_FEATURES)
+        loss = reconstruction_loss(x, W, b).sum()
 
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
-    return W.detach().cpu(), evaluate(W.detach(), b.detach(), sparsity)
+    W, b = W.detach(), b.detach()
+    return list(zip(W.cpu().unbind(0), evaluate(W, b, sparsity)))
 
 
 def align(W: torch.Tensor) -> torch.Tensor:
@@ -104,13 +112,17 @@ def main():
     steps = []
     previous: torch.Tensor | None = None
     for sparsity in SPARSITIES:
-        results = [train(sparsity, seed) for seed in SEEDS]
-        print(f"S={sparsity:.2f}  seed losses: {' '.join(f'{loss:.5f}' for _, loss in results)}")
+        results = train(sparsity)
+        best_W, best_loss = min(results, key=lambda result: result[1])
+        candidates = [
+            align(W)
+            for W, loss in results
+            if loss <= best_loss * (1 + LOSS_TOLERANCE) and represented(W) == represented(best_W)
+        ]
+        print(f"S={sparsity:.2f}  best loss: {best_loss:.5f}  candidates: {len(candidates)}")
 
-        best_loss = min(loss for _, loss in results)
-        candidates = [align(W) for W, loss in results if loss <= best_loss * (1 + LOSS_TOLERANCE)]
         if previous is None:
-            W = align(min(results, key=lambda result: result[1])[0])
+            W = align(best_W)
         else:
             options = candidates + [mirror(W) for W in candidates]
             W = min(options, key=lambda option: distance(option, previous))
