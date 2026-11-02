@@ -70,4 +70,10 @@ pub struct FeatureSource {
     pub neuronpedia: &'static str,
 }
 
+#[derive(PartialEq)]
+pub struct SparsityStep {
+    pub sparsity: f32,
+    pub vectors: &'static [(f32, f32)],
+}
+
 include!(concat!(env!("OUT_DIR"), "/content_generated.rs"));
