@@ -2,7 +2,6 @@ mod content;
 mod features;
 mod markdown;
 mod posts;
-mod superposition;
 
 use std::fs;
 use std::path::Path;
@@ -21,7 +20,6 @@ fn main() {
 
     let mut content_code = content::generate(&renderer, &post_slugs);
     content_code.push_str(&features::generate());
-    content_code.push_str(&superposition::generate());
 
     let out_dir =
         std::env::var("OUT_DIR").expect("OUT_DIR should be set by Cargo for build scripts");
