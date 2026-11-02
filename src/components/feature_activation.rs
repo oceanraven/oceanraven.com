@@ -5,7 +5,6 @@ use dioxus::prelude::*;
 struct TokenView {
     position: usize,
     text: &'static str,
-    activation: f32,
     highlight_class: &'static str,
     highlight_style: String,
     hover_class: &'static str,
@@ -33,7 +32,7 @@ pub fn FeatureActivation(
     let highlighted = tokens.iter().enumerate().map(|(i, token)| {
         let activation = current_feature.activation(i);
         let hover_class = if hovered_position == Some(i) {
-            "underline underline-offset-4"
+            "underline decoration-secondary decoration-2 underline-offset-4"
         } else {
             ""
         };
@@ -41,7 +40,6 @@ pub fn FeatureActivation(
         TokenView {
             position: i,
             text: *token,
-            activation,
             highlight_class,
             highlight_style,
             hover_class,
@@ -82,17 +80,10 @@ pub fn FeatureActivation(
             }
         }
         p { class: "text-lg leading-relaxed",
-            for TokenView {
-        position,
-        text,
-        highlight_class,
-        highlight_style,
-        hover_class,
-        activation: _,
-    } in highlighted {
+            for TokenView { position, text, highlight_class, highlight_style, hover_class } in highlighted {
                 span {
                     key: "{position}",
-                    class: "transition-colors duration-300 cursor-default {highlight_class} decoration-secondary decoration-2 {hover_class}",
+                    class: "tcursor-default transition-[background-color] duration-300 {highlight_class} {hover_class}",
                     style: highlight_style,
                     onmouseenter: move |_| hovered.set(Some(position)),
                     onmouseleave: move |_| hovered.set(None),
@@ -106,8 +97,12 @@ pub fn FeatureActivation(
         }
         div { class: "mt-3 flex flex-col gap-2 md:flex-row md:justify-between md:gap-4 font-mono text-xs text-neutral-600 dark:text-neutral-400",
             span { "{source.model} · layer {source.layer} · {source.sae} SAE" }
-            if let Some(readout) = readout {
-                span { "{readout}" }
+            span {
+                if let Some(readout) = readout {
+                    "{readout}"
+                } else {
+                    "\u{00a0}"
+                }
             }
         }
     }
